@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/Username_main"
+        android:layout_width="295dp"
+        android:layout_height="47dp"
+        android:gravity="center"
+
+
+        android:text="@string/set_username" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:background="@color/white">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/textView"-->
+    <!--        android:layout_width="230dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="@string/my_task"-->
+    <!--        android:textSize="60sp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        tools:layout_marginBottom="50sp" />-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/addBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="3sp"
+            android:layout_marginBottom="6dp"
+            android:text="@string/add_task" />
+
+        <Button
+            android:id="@+id/allTaskBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="14sp"
+            android:text="@string/all_task_txt" />
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginEnd="6dp"
+            android:contentDescription="@string/menu"
+            app:srcCompat="@android:drawable/ic_menu_manage"
+            tools:ignore="ImageContrastCheck"
+            tools:layout_marginTop="40sp" />
+    </LinearLayout>
+
+</LinearLayout>
+
+
+
+    <!--    <ImageView-->
+    <!--        android:id="@+id/imageView"-->
+    <!--        android:layout_width="205dp"-->
+    <!--        android:layout_height="130dp"-->
+    <!--        android:layout_marginStart="72dp"-->
+    <!--        android:layout_marginTop="38dp"-->
+    <!--        android:layout_marginEnd="94dp"-->
+    <!--        android:contentDescription="@string/mytask"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/textView"-->
+    <!--        tools:srcCompat="@drawable/ic_launcher_foreground" />-->
+
+
+
+    <!--    <Button-->
+    <!--        android:id="@+id/title_a"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="16dp"-->
+    <!--        android:layout_marginTop="234dp"-->
+
+    <!--        android:layout_marginEnd="43dp"-->
+    <!--        android:text="@string/title_a"-->
+    <!--        app:layout_constraintEnd_toStartOf="@+id/title_b"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/imageView" />-->
+
+    <!--    <Button-->
+    <!--        android:id="@+id/title_b"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginEnd="46dp"-->
+    <!--        android:layout_marginBottom="156dp"-->
+    <!--        android:text="@string/title_b"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toStartOf="@+id/title_c" />-->
+
+    <!--    <Button-->
+    <!--        android:id="@+id/title_c"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginEnd="42dp"-->
+    <!--        android:layout_marginBottom="102dp"-->
+    <!--        android:text="@string/title_c"-->
+    <!--        app:layout_constraintBottom_toTopOf="@+id/allTaskBtn"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent" />-->
+
+
+
+    <!--</LinearLayout>-->

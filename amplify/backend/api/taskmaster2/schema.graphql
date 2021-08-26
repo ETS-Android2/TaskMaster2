@@ -1,0 +1,23 @@
+type Todo @model {
+  id: ID!
+  name: String!
+  description: String
+}
+type Team @model
+{
+  id:ID!
+  name:String!
+  taskitem:[TaskItem] @connection(keyName:"tasks",fields:["id"])
+}
+
+type TaskItem @model
+@key(name:"tasks",fields:["teamId"])
+{
+  id: ID!
+  teamId:ID!
+  title:String!
+  body:String!
+  state:String!
+  team:Team! @connection(fields:["teamId"])
+
+}

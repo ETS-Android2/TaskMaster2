@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".SettingPage">
+
+    <TextView
+        android:id="@+id/username_txt_view"
+        android:layout_width="102dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="51dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="20dp"
+        android:text="@string/new_user_name"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+    <EditText
+        android:id="@+id/username_edit_txt"
+        android:layout_width="140dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="50dp"
+        android:autofillHints="none"
+        android:hint="@string/new_username"
+        android:inputType="textPersonName"
+        tools:ignore="TextContrastCheck" />
+
+    <TextView
+        android:id="@+id/textTeam"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/choose_The_Team"
+        android:textSize="25sp" />
+
+    <Spinner
+        android:id="@+id/spinnerForTeam"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <Button
+        android:id="@+id/save_username_btn"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="150dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="162dp"
+        android:layout_marginBottom="20dp"
+        android:text="@string/save_btn" />
+
+    <Button
+        android:id="@+id/goHome_btn"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="162dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="162dp"
+        android:layout_marginBottom="20dp"
+        android:text="@string/go_home" />
+    <Button
+        android:id="@+id/log_out"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="162dp"
+        android:layout_marginLeft="162dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="162dp"
+        android:layout_marginRight="162dp"
+        android:layout_marginBottom="17dp"
+        android:text="@string/log_out"/>
+
+
+</LinearLayout>
