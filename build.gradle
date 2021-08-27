@@ -11,8 +11,14 @@ buildscript {
         // in the individual module build.gradle files
 
         classpath 'com.amplifyframework:amplify-tools-gradle-plugin:1.0.0'
+
+        // Add this line
+        classpath 'com.google.gms:google-services:4.3.10'
+
+
     }
 }
+
 
 task clean(type: Delete) {
     delete rootProject.buildDir
