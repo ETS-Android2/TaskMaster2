@@ -2,10 +2,12 @@ package com.android.taskmaster2;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import com.amplifyframework.core.Amplify;
 
 import java.io.File;
+import java.util.Date;
 
 public class TaskDetailPage extends AppCompatActivity {
 
@@ -21,12 +24,17 @@ public class TaskDetailPage extends AppCompatActivity {
     private File downloadedImage ;
     private Handler handleImageView ;
     private static final String TAG = "TaskDetailsActivity";
+    String exctension;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_detail_page);
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        exctension = sharedPreferences.getString("fileType",null);
+
 
         taskImage = findViewById(R.id.downloadFile);
 
@@ -59,16 +67,31 @@ public class TaskDetailPage extends AppCompatActivity {
     }
 
 
+
     private void getFileFromApi(){
-        Amplify.Storage.downloadFile(
-                titleName+".jpg" ,
-                new File(getApplicationContext().getFilesDir() + "test.jpg") ,
-                success -> {
-                    Log.i(TAG, "getFileFromApi: successfully   ----> " + success.toString());
-                    downloadedImage = success.getFile();
-                    handleImageView.sendEmptyMessage(1);
-                },
-                failure -> Log.i(TAG, "getFileFromApi:  failed  ---> " + failure.toString())
-        ) ;
+
+        if(exctension == "Image"){
+            String fileFey =titleName+".png";
+            Amplify.Storage.downloadFile(
+                    fileFey,
+                    new File(getApplicationContext().getFilesDir() + titleName+".png") ,
+                    success -> {
+                        Log.i(TAG, "getFileFromApi: successfully   ----> " + success.toString());
+                        downloadedImage = success.getFile();
+                        handleImageView.sendEmptyMessage(1);
+                    },
+                    failure -> Log.i(TAG, "getFileFromApi:  failed  ---> " + failure.toString())
+            ) ;
+        }
+        else {
+
+            Amplify.Storage.getUrl(
+                    titleName,
+                    result -> Log.i("MyAmplifyApp", "Successfully generated: " + result.getUrl()),
+                    error -> Log.e("MyAmplifyApp", "URL generation failure", error)
+            );
+        }
+
     }
+
 }
