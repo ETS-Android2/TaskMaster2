@@ -17,11 +17,15 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.ui.AppBarConfiguration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import com.amazonaws.mobileconnectors.pinpoint.PinpointManager;
 import com.amplifyframework.AmplifyException;
+import com.amplifyframework.analytics.AnalyticsEvent;
+import com.amplifyframework.analytics.pinpoint.AWSPinpointAnalyticsPlugin;
 import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
@@ -30,8 +34,10 @@ import com.amplifyframework.datastore.AWSDataStorePlugin;
 import com.amplifyframework.datastore.generated.model.Team;
 
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,6 +51,10 @@ public class MainActivity extends AppCompatActivity {
     public static final String TEAM = "team";
 
     private static final String TAG = "MainActivity";
+    private AppBarConfiguration appBarConfiguration;
+
+    private static PinpointManager pinpointManager;
+
 
     int count=1;
     String teamId;
@@ -73,12 +83,12 @@ public class MainActivity extends AppCompatActivity {
             Amplify.addPlugin(new AWSApiPlugin());
             Amplify.addPlugin(new AWSDataStorePlugin());
             Amplify.addPlugin(new AWSCognitoAuthPlugin());
+            Amplify.addPlugin(new AWSApiPlugin());
             Amplify.configure(getApplicationContext());
             Log.i("Tutorial", "Initialized Amplify");
         } catch (AmplifyException failure) {
             Log.e("Tutorial", "Could not initialize Amplify", failure);
         }
-
 
         handler = new Handler(Looper.getMainLooper(), new Handler.Callback() {
             @SuppressLint("NotifyDataSetChanged")
@@ -105,13 +115,16 @@ public class MainActivity extends AppCompatActivity {
         ImageButton menuBtn = findViewById(R.id.imageButton);
         menuBtn.setOnClickListener(v -> {
             Intent menuIntent = new Intent(MainActivity.this, SettingPage.class);
+            recordAnEvent("NavigateToAddTasksActivity");
             startActivity(menuIntent);
         });
         Button allTaskBtn = MainActivity.this.findViewById(R.id.allTaskBtn);
+//        recordAnEvent("NavigateToAddTasksActivity");
         allTaskBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, AllTask.class);
+                recordAnEvent("NavigateToAddTasksActivity");
                 MainActivity.this.startActivity(intent);
             }
         });
@@ -120,12 +133,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, AddTask.class);
+                recordAnEvent("NavigateToAddTasksActivity");
                 MainActivity.this.startActivity(intent);
             }
         });
 
 
+
     }
+
 
 
     private void dataSetChanged(){viewAdapter.notifyDataSetChanged();}
@@ -183,6 +199,19 @@ public class MainActivity extends AppCompatActivity {
 //    }
 
 
+    private void recordAnEvent(String eventName){
+        Random random = new Random();
+        Integer randomAge = random.nextInt(50) + 15;
+        AnalyticsEvent event = AnalyticsEvent.builder()
+                .name(eventName)
+                .addProperty("Channel", "SMS")
+                .addProperty("Successful", true)
+                .addProperty("ProcessDuration", 792)
+                .addProperty("UserAge", randomAge)
+                .addProperty("Date" , String.valueOf(new Date()))
+                .build();
 
+        Amplify.Analytics.recordEvent(event);
+    }
 
 }

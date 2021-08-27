@@ -46,5 +46,11 @@
       "service": "S3",
       "providerPlugin": "awscloudformation"
     }
+  },
+  "analytics": {
+    "taskmaster2": {
+      "service": "Pinpoint",
+      "providerPlugin": "awscloudformation"
+    }
   }
 }
