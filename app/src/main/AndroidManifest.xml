@@ -9,6 +9,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TaskMaster2">
+        <service
+            android:name=".PushListenerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
         <activity
             android:name=".Verification"
             android:exported="true" />
@@ -32,8 +39,7 @@
             android:exported="true" />
         <activity
             android:name=".LogIn"
-            android:exported="true"
-            android:launchMode="singleInstance">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -41,5 +47,6 @@
             </intent-filter>
         </activity>
     </application>
+
 
 </manifest>
