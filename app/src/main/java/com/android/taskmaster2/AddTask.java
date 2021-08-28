@@ -19,12 +19,15 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.amplifyframework.api.graphql.model.ModelMutation;
+import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Team;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddTask extends AppCompatActivity {
 
@@ -37,6 +40,10 @@ public class AddTask extends AppCompatActivity {
     private TaskDao taskDao;
     String taskState;
     String theTeam;
+    List<Team> TeamMembers;
+    Team teamType;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +58,16 @@ public class AddTask extends AppCompatActivity {
 //            Log.e("Tutorial", "Could not initialize Amplify", failure);
 //        }
 
-
+        TeamMembers = new ArrayList<>();
+        Amplify.API.query(ModelQuery.list(Team.class),
+                response -> {
+                    Log.i(TAG, "onCreate: Queeeeeery"+response.getData());
+                    for (Team team: response.getData()) {
+                        TeamMembers.add(team);
+                    }
+                },
+                error -> Log.e(TAG, "onCreate: ERRRRRRRR"+error.toString())
+        );
 
         Spinner spinner =  findViewById(R.id.spinner);
 
@@ -125,7 +141,14 @@ public class AddTask extends AppCompatActivity {
                 taskItem.setState(taskState);
                 taskDao.insertOneTask(taskItem);
 
-
+                Log.i(TAG, "onCreate: BBBBBBBEEEFFFFFFOOOOOOOOOORRRR query");
+                for (Team teamTests: TeamMembers
+                ) {
+                    if(teamTests.getName().equals(theTeam)){
+                        Log.i(TAG, "onCreate: teeeeeeeeeeeea"+theTeam);
+                        teamType = teamTests;
+                    }
+                }
 
 
                 com.amplifyframework.datastore.generated.model.TaskItem taskItem1= com.amplifyframework.datastore.generated.model.TaskItem.builder()

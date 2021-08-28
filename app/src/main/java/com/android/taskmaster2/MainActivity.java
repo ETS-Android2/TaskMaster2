@@ -133,16 +133,17 @@ public class MainActivity extends AppCompatActivity {
         getPinpointManager(getApplicationContext());
 
 
-        try {
-            Amplify.addPlugin(new AWSApiPlugin());
-            Amplify.addPlugin(new AWSDataStorePlugin());
-            Amplify.addPlugin(new AWSCognitoAuthPlugin());
-            Amplify.addPlugin(new AWSApiPlugin());
-            Amplify.configure(getApplicationContext());
-            Log.i("Tutorial", "Initialized Amplify");
-        } catch (AmplifyException failure) {
-            Log.e("Tutorial", "Could not initialize Amplify", failure);
-        }
+//        try {
+//            Amplify.addPlugin(new AWSApiPlugin());
+//            Amplify.addPlugin(new AWSDataStorePlugin());
+//            Amplify.addPlugin(new AWSPinpointAnalyticsPlugin(this));
+//
+//            Amplify.addPlugin(new AWSCognitoAuthPlugin());
+//            Amplify.configure(getApplicationContext());
+//            Log.i("Tutorial", "Initialized Amplify");
+//        } catch (AmplifyException failure) {
+//            Log.e("Tutorial", "Could not initialize Amplify", failure);
+//        }
 
         handler = new Handler(Looper.getMainLooper(), new Handler.Callback() {
             @SuppressLint("NotifyDataSetChanged")
@@ -169,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
         ImageButton menuBtn = findViewById(R.id.imageButton);
         menuBtn.setOnClickListener(v -> {
             Intent menuIntent = new Intent(MainActivity.this, SettingPage.class);
+            doanalitics();
             startActivity(menuIntent);
         });
         Button allTaskBtn = MainActivity.this.findViewById(R.id.allTaskBtn);
@@ -177,6 +179,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, AllTask.class);
+                doanalitics();
                 MainActivity.this.startActivity(intent);
             }
         });
@@ -185,6 +188,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, AddTask.class);
+                doanalitics();
                 MainActivity.this.startActivity(intent);
             }
         });
@@ -198,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
     private void dataSetChanged(){viewAdapter.notifyDataSetChanged();}
 
     private void getTeamFromAPI(){
-        Amplify.API.query(ModelQuery.list(Team.class,Team.NAME.eq("Team B")),
+        Amplify.API.query(ModelQuery.list(Team.class,Team.NAME.eq(team)),
                 response ->{
 
                     for(Team item : response.getData()){
@@ -206,7 +210,6 @@ public class MainActivity extends AppCompatActivity {
                         commingList=item.getTaskitem();
                         Log.i("coming","on create : ------------ =>"+item.getTaskitem());
                     }
-                    runOnUiThread(()-> {
                         taskRecycleView = findViewById(R.id.list);
                         viewAdapter = new ViewAdapter(commingList, new ViewAdapter.OnTaskItemClickListener() {
                             @Override
@@ -221,20 +224,35 @@ public class MainActivity extends AppCompatActivity {
 
                             }
                         });
-                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(
-                                this,
-                                LinearLayoutManager.VERTICAL,
-                                false);
+                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(
+                            this,
+                            LinearLayoutManager.VERTICAL,
+                            false);
 
+                    Log.i("viewAdapterCHange","on create : the item is =>"+commingList);
+
+                    runOnUiThread(() ->{
                         taskRecycleView.setLayoutManager(linearLayoutManager);
                         taskRecycleView.setAdapter(viewAdapter);
-
+                        taskRecycleView.getAdapter().notifyDataSetChanged();
                     });
+
+
                 },
                 error -> Log.e("error","onCreate faild"+error.toString())
         );
     }
 
+public void doanalitics() {
+    AnalyticsEvent event = AnalyticsEvent.builder()
+            .name("PasswordReset")
+            .addProperty("Channel", "SMS")
+            .addProperty("Successful", true)
+            .addProperty("ProcessDuration", 792)
+            .addProperty("UserAge", 120.3)
+            .build();
+    Amplify.Analytics.recordEvent(event);
+}
 //    private void getTasksFromAPI(){
 //        Amplify.API.query(ModelQuery.list(com.amplifyframework.datastore.generated.model.TaskItem.class, com.amplifyframework.datastore.generated.model.TaskItem.TEAM.eq(teamId)),
 //                response ->{
