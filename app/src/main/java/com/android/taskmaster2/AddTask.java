@@ -17,6 +17,7 @@ import androidx.room.Room;
 
 import android.content.Intent;
 import android.os.FileUtils;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -48,6 +49,10 @@ public class AddTask extends AppCompatActivity {
 
     EditText taskTitle;
     private Button chooseFileBtn;
+    String title;
+    String exctension;
+
+    private Button chooseFileBtn ;
     private TaskDao taskDao;
     String taskState;
     String theTeam;
@@ -72,6 +77,8 @@ public class AddTask extends AppCompatActivity {
 //        } catch (AmplifyException failure) {
 //            Log.e("Tutorial", "Could not initialize Amplify", failure);
 //        }
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor prefEditor = sharedPreferences.edit();
 
         TeamMembers = new ArrayList<>();
         Amplify.API.query(ModelQuery.list(Team.class),
@@ -194,7 +201,15 @@ public class AddTask extends AppCompatActivity {
         chooseFileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                chooseFileFromDevice();
+                Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
+                taskTitle = AddTask.this.findViewById(R.id.task_title_input);
+                title = taskTitle.getText().toString();
+                chooseFile.setType("*/*");
+                chooseFile = Intent.createChooser(chooseFile, "Choose File");
+                startActivityForResult(chooseFile, REQUEST_FOR_FILE);
+
+                prefEditor.putString("fileType", exctension);
+                prefEditor.apply();
             }
         });
 
@@ -254,7 +269,6 @@ public class AddTask extends AppCompatActivity {
         if (requestCode == REQUEST_FOR_FILE && resultCode == RESULT_OK) {
             Log.i(TAG, "onActivityResult: returned from file explorer");
             Log.i(TAG, "onActivityResult: => " + data.getData());
-            Log.i(TAG, "onActivityResult: " + data.getType());
 
             File uploadFile = new File(getApplicationContext().getFilesDir(), "uploadFile");
 
@@ -265,10 +279,18 @@ public class AddTask extends AppCompatActivity {
             } catch (Exception exception) {
                 Log.e(TAG, "onActivityResult: file upload failed" + exception.toString());
             }
-
-            uploadFileToApiStorage(uploadFile);
+            if (exctension.contains("image")||exctension.contains("image")){
+                exctension=".png";
+            }
+            Amplify.Storage.uploadFile(
+                    title+exctension,
+                    uploadFile,
+                    success -> Log.i(TAG, "uploadFileToS3: succeeded " + success.getKey()),
+                    error -> Log.e(TAG, "uploadFileToS3: failed " + error.toString())
+            );
 
         }
+
     }
 
     private void uploadFileToApiStorage(File uploadFile) {
@@ -315,5 +337,6 @@ public class AddTask extends AppCompatActivity {
         }
         return extension;
     }
+
 
 }
