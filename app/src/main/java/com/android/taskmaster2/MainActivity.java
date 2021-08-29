@@ -2,6 +2,7 @@ package com.android.taskmaster2;
 
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,6 +17,10 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -33,6 +38,7 @@ import com.amplifyframework.AmplifyException;
 import com.amplifyframework.analytics.AnalyticsEvent;
 import com.amplifyframework.analytics.pinpoint.AWSPinpointAnalyticsPlugin;
 import com.amplifyframework.api.aws.AWSApiPlugin;
+import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.core.Amplify;
@@ -133,6 +139,22 @@ public class MainActivity extends AppCompatActivity {
         getPinpointManager(getApplicationContext());
 
 
+//        Team teamA= Team.builder().name("Team A").build();
+//        Team teamB= Team.builder().name("Team B").build();
+//        Team teamC= Team.builder().name("Team C").build();
+//        Amplify.API.mutate(ModelMutation.create(teamA),
+//                response -> Log.i("MyAmplify", "Added" + response.getData()),
+//                error -> Log.e("MyAmplifyApp", "Create failed", error)
+//        );
+//        Amplify.API.mutate(ModelMutation.create(teamB),
+//                response -> Log.i("MyAmplify", "Added" + response.getData()),
+//                error -> Log.e("MyAmplifyApp", "Create failed", error)
+//        );
+//        Amplify.API.mutate(ModelMutation.create(teamC),
+//                response -> Log.i("MyAmplify", "Added" + response.getData()),
+//                error -> Log.e("MyAmplifyApp", "Create failed", error)
+//        );
+
 //        try {
 //            Amplify.addPlugin(new AWSApiPlugin());
 //            Amplify.addPlugin(new AWSDataStorePlugin());
@@ -193,7 +215,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+//// intent filter
+//        ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
+//                new ActivityResultContracts.StartActivityForResult(),
+//                new ActivityResultCallback<ActivityResult>() {
+//                    @Override
+//                    public void onActivityResult(ActivityResult result) {
+//                        if (result.getResultCode() == Activity.RESULT_OK) {
+//                            // There are no request codes
+//                            Intent data = result.getData();
+//                            Log.i(TAG, "onActivityResult: Merry Christmas");
+//                        }
+//                    }
+//                });
 
     }
 

@@ -1,7 +1,12 @@
 package com.android.taskmaster2;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -42,7 +47,11 @@ public class LogIn extends AppCompatActivity {
             Intent goToSignUp = new Intent(LogIn.this, SignUp.class);
             startActivity(goToSignUp);
         });
+
+
     }
+
+
 
     void signIn(String username, String password) {
         Amplify.Auth.signIn(
